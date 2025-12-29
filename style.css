@@ -1,0 +1,116 @@
+html {
+  background-color: var(--background-color);
+  height: 100%;
+  width: 100%;
+
+
+  --background-color: white;
+  --lattice-color: black;
+
+}
+body {
+  height: calc(100% - 16px);
+  width: calc(100% - 16px);
+  margin: 8px;
+
+
+  --cell-size: 50px;
+  --row-count: 10;
+  --column-count: 10;
+  --point_size_rate: 0.8;
+  --point-color: black;
+  --point-color-emph: red;
+  --point-color-ghost: rgba(0,0,0,0.1);
+  --circle-color: red;
+}
+
+.main_wrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+  border: 2px solid black;
+  box-sizing: border-box;
+}
+
+.main_field {
+  position: relative;
+  height: calc(var(--cell-size) * var(--row-count));
+  width: calc(var(--cell-size) * var(--column-count));
+  margin: 10px;
+
+  display: grid;
+  grid-template-rows: repeat(var(--row-count), var(--cell-size));
+  grid-template-columns: repeat(var(--column-count), var(--cell-size));
+
+}
+
+.cell {
+  position: relative;
+}
+
+.cell::before {
+  content: "";
+  border-top: 1px solid var(--lattice-color);
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  transform: translateY(100%);
+  z-index: 0;
+}
+.cell::after {
+  content: "";
+  border-left: 1px solid var(--lattice-color);
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  transform: translateX(100%);
+  z-index: 0;
+}
+
+.cell_content {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 5;
+}
+.cell_content::before {
+  content: none;
+  position: absolute;
+  height: calc(var(--cell-size) * var(--point_size_rate));
+  width: calc(var(--cell-size) * var(--point_size_rate));
+  top: 0;
+  left: 0;
+  transform: translate(calc(calc(var(--cell-size) / 2) - calc(calc(var(--cell-size) * var(--point_size_rate)) / 2)), calc(calc(var(--cell-size) / 2) - calc(calc(var(--cell-size) * var(--point_size_rate)) / 2)));
+  border-radius: 50%;
+  z-index: 5;
+}
+
+.cell .cell_content:hover::before {
+  content: "";
+  background-color: var(--point-color-ghost);
+}
+
+.cell.point .cell_content::before {
+  content: "";
+  background-color: var(--point-color);
+  
+}
+
+.cell.point.emph .cell_content::before {
+  content: "";
+  background-color: var(--point-color-emph);
+}
+
+.circle {
+  border: 1px solid var(--circle-color);
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+}
